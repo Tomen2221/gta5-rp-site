@@ -1,10 +1,10 @@
 export default async function handler(req, res) {
   const { item } = req.body;
 
- const prompt = `
-Оцени стоимость предмета "${item}" для сервера GTA 5 RP Redwood.
+const prompt = `
+Ты — эксперт по экономике сервера GTA 5 RP Redwood. Твоя задача — оценивать рыночную цену игровых предметов и машин.
 
-Ответь строго в JSON формате:
+Пожалуйста, дай ответ строго в JSON формате без лишнего текста:
 
 {
   "average_price": "пример: 50000$",
@@ -12,8 +12,10 @@ export default async function handler(req, res) {
   "tips": "краткие советы по продаже"
 }
 
-Если не знаешь цену — поставь "-"
+Если предмет неизвестен или цены нет, поставь "-"
 `;
+
+
 
 
   try {
