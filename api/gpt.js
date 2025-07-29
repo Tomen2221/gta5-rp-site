@@ -31,8 +31,16 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    const text = data.choices?.[0]?.message?.content || "{}";
-console.log("OpenAI response:", text);
+  const text = data.choices?.[0]?.message?.content;
+
+if (!text || text.trim() === "{}") {
+  return res.status(200).json({
+    average_price: "-",
+    price_range: "-",
+    tips: "Нет данных по этому предмету.",
+  });
+}
+
 
     let json;
     try {
