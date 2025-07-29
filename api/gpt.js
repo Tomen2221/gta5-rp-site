@@ -28,6 +28,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     const text = data.choices?.[0]?.message?.content || "{}";
+console.log("OpenAI response:", text);
 
     let json;
     try {
