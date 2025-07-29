@@ -7,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const fetchPrice = async () => {
-    if (!item.trim()) return; // не отправлять пустой запрос
+    if (!item.trim()) return;
     setLoading(true);
     try {
       const res = await fetch("/api/gpt", {
@@ -16,9 +16,20 @@ function App() {
         body: JSON.stringify({ item }),
       });
       const data = await res.json();
-      setPriceData({ name: item, average: "-", range: "-", tips: data.answer });
-    } catch (error) {
-      setPriceData({ name: item, average: "-", range: "-", tips: "Ошибка при запросе к ИИ." });
+
+      setPriceData({
+        name: item,
+        average: data.average_price || "-",
+        range: data.price_range || "-",
+        tips: data.tips || "-",
+      });
+    } catch {
+      setPriceData({
+        name: item,
+        average: "-",
+        range: "-",
+        tips: "Ошибка при запросе к ИИ.",
+      });
     }
     setLoading(false);
   };
