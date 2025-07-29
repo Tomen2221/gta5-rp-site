@@ -6,23 +6,21 @@ function App() {
   const [priceData, setPriceData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-const fetchPrice = async () => {
-  setLoading(true);
-  const res = await fetch("/api/gpt", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ item }),
-  });
-  const data = await res.json();
-  setPriceData({ name: item, average: "-", range: "-", tips: data.answer });
-  setLoading(false);
-};
-
-    };
-    setTimeout(() => {
-      setPriceData(dummy);
-      setLoading(false);
-    }, 1000);
+  const fetchPrice = async () => {
+    if (!item.trim()) return; // не отправлять пустой запрос
+    setLoading(true);
+    try {
+      const res = await fetch("/api/gpt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ item }),
+      });
+      const data = await res.json();
+      setPriceData({ name: item, average: "-", range: "-", tips: data.answer });
+    } catch (error) {
+      setPriceData({ name: item, average: "-", range: "-", tips: "Ошибка при запросе к ИИ." });
+    }
+    setLoading(false);
   };
 
   return (
