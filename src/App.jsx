@@ -6,13 +6,18 @@ function App() {
   const [priceData, setPriceData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchPrice = () => {
-    setLoading(true);
-    const dummy = {
-      name: item,
-      average: "2.1 млн$",
-      range: "1.8 - 2.4 млн$",
-      tips: "Низкий пробег и тюнинг увеличивают стоимость",
+const fetchPrice = async () => {
+  setLoading(true);
+  const res = await fetch("/api/gpt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ item }),
+  });
+  const data = await res.json();
+  setPriceData({ name: item, average: "-", range: "-", tips: data.answer });
+  setLoading(false);
+};
+
     };
     setTimeout(() => {
       setPriceData(dummy);
