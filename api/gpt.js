@@ -1,16 +1,20 @@
 export default async function handler(req, res) {
   const { item } = req.body;
 
-  const prompt = `
-Сколько стоит "${item}" на RP сервере Redwood GTA 5? 
-Верни ответ строго в формате JSON:
+ const prompt = `
+Оцени стоимость предмета "${item}" для сервера GTA 5 RP Redwood.
+
+Ответь строго в JSON формате:
 
 {
-  "average_price": "число или строка с ценой",
-  "price_range": "строка с диапазоном цен",
+  "average_price": "пример: 50000$",
+  "price_range": "пример: 45000$ - 55000$",
   "tips": "краткие советы по продаже"
 }
+
+Если не знаешь цену — поставь "-"
 `;
+
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
